@@ -1,3 +1,4 @@
+using Toybox.Graphics as Gfx;
 using Toybox.WatchUi;
 using Toybox.Graphics;
 using Toybox.System;
@@ -23,13 +24,20 @@ class EclipseView extends WatchUi.WatchFace {
     // Update the view
     function onUpdate(dc) {
         // Get and show the current time
-        var clockTime = System.getClockTime();
-        var timeString = Lang.format("$1$:$2$", [clockTime.hour, clockTime.min.format("%02d")]);
-        var view = View.findDrawableById("TimeLabel");
-        view.setText(timeString);
+        var width = dc.getWidth();
+        var height = dc.getHeight();
+        
+        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
+        dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight()); 
 
-        // Call the parent onUpdate function to redraw the layout
-        View.onUpdate(dc);
+		dc.setPenWidth(1);
+		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_WHITE);
+		var x1 = width / 2;
+		var y1 = height / 2;
+		var x2 = width;
+		var y2 = height / 2;
+		dc.drawLine(x1, y1, x2, y2);
+        
     }
 
     // Called when this View is removed from the screen. Save the
