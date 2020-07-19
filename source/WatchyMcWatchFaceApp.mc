@@ -1,6 +1,6 @@
 using Toybox.Application;
 
-class EclipseApp extends Application.AppBase {
+class WatchyMcWatchFaceApp extends Application.AppBase {
 
     function initialize() {
         AppBase.initialize();
@@ -16,7 +16,7 @@ class EclipseApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() {
-        return [ new EclipseView() ];
+        return [ new WatchyMcWatchFaceView() ];
     }
 
 }
