@@ -34,7 +34,7 @@ class WatchyMcWatchFaceView extends WatchUi.WatchFace {
         var minutes = clockTime.min;
         var hours = clockTime.hour;
         
-//        clearScreen(dc);
+        clearScreen(dc);
         
         updateMinuteHand(dc, minutes);
         updateHourHand(dc, hours);
@@ -46,7 +46,7 @@ class WatchyMcWatchFaceView extends WatchUi.WatchFace {
         var angle_radians = angle_degrees * PI / 180;
         var x2 = center_x + radius * Math.cos(angle_radians); // parametric circle equation
         var y2 = center_y + radius * Math.sin(angle_radians);
-        drawGenericLine(dc, center_x, center_y, x2, y2);
+        drawGenericLine(dc, center_x, center_y, x2, y2, Gfx.COLOR_RED);
     }
     
     function updateHourHand(dc, hours){
@@ -54,12 +54,12 @@ class WatchyMcWatchFaceView extends WatchUi.WatchFace {
         var angle_radians = angle_degrees * PI / 180;
         var x2 = center_x + (radius / 2) * Math.cos(angle_radians);
         var y2 = center_y + (radius / 2) * Math.sin(angle_radians);
-        drawGenericLine(dc, center_x, center_y, x2, y2);
+        drawGenericLine(dc, center_x, center_y, x2, y2, Gfx.COLOR_WHITE);
     }
     
-    function drawGenericLine(dc, x1, y1, x2, y2){
+    function drawGenericLine(dc, x1, y1, x2, y2, color){
         dc.setPenWidth(PEN_WIDTH);
-        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_WHITE);
+        dc.setColor(color, Gfx.COLOR_WHITE);
         dc.drawLine(x1, y1, x2, y2);
     }
     
