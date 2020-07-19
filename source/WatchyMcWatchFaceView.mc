@@ -6,12 +6,12 @@ using Toybox.System;
 using Toybox.Lang;
 
 class WatchyMcWatchFaceView extends WatchUi.WatchFace {
-	
-	const PEN_WIDTH = 1;
-	
-	var center_x;
-	var center_y;
-	var radius;
+    
+    const PEN_WIDTH = 1;
+
+    var center_x;
+    var center_y;
+    var radius;
     const PI = Math.PI;
 
     function initialize() {
@@ -36,28 +36,28 @@ class WatchyMcWatchFaceView extends WatchUi.WatchFace {
     // Update the view
     function onUpdate(dc) {
         var clockTime = Sys.getClockTime();
-		var minutes = clockTime.min;
-		clearScreen(dc);
+        var minutes = clockTime.min;
+        clearScreen(dc);
         
         updateMinuteHand(dc, minutes);
     }
     
     function updateMinuteHand(dc, minutes){
-    	var angle_degrees = ((minutes * 6) - 90);
-    	var angle_radians = angle_degrees * PI / 180;
-    	var x2 = center_x + radius * Math.cos(angle_radians); // parametric circle equation
-    	var y2 = center_y + radius * Math.sin(angle_radians);
-    	drawGenericLine(dc, center_x, center_y, x2, y2);
+        var angle_degrees = ((minutes * 6) - 90);
+        var angle_radians = angle_degrees * PI / 180;
+        var x2 = center_x + radius * Math.cos(angle_radians); // parametric circle equation
+        var y2 = center_y + radius * Math.sin(angle_radians);
+        drawGenericLine(dc, center_x, center_y, x2, y2);
     }
     
     function drawGenericLine(dc, x1, y1, x2, y2){
-		dc.setPenWidth(PEN_WIDTH);
-		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_WHITE);
-		dc.drawLine(x1, y1, x2, y2);
-	}
+        dc.setPenWidth(PEN_WIDTH);
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_WHITE);
+        dc.drawLine(x1, y1, x2, y2);
+    }
     
     function clearScreen(dc){
-    	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
+        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
         dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
     }
 
