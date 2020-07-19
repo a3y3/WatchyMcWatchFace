@@ -4,42 +4,41 @@ using Toybox.WatchUi;
 using Toybox.Graphics;
 using Toybox.System;
 using Toybox.Lang;
+using Toybox.Time.Gregorian as Date;
+
 
 class WatchyMcWatchFaceView extends WatchUi.WatchFace {
     
     const PEN_WIDTH = 1;
+    const PI = Math.PI;
 
     var center_x;
     var center_y;
     var radius;
-    const PI = Math.PI;
 
     function initialize() {
         WatchFace.initialize();
     }
 
-    // Load your resources here
     function onLayout(dc) {
         var width = dc.getWidth();
         var height = dc.getHeight();
         center_x = width / 2;
         center_y = height / 2;
         radius = width / 2;
+        setLayout(Rez.Layouts.WatchFace(dc));
     }
 
-    // Called when this View is brought to the foreground. Restore
-    // the state of this View and prepare it to be shown. This includes
-    // loading resources into memory.
-    function onShow() {
-    }
-
-    // Update the view
     function onUpdate(dc) {
         var clockTime = Sys.getClockTime();
         var minutes = clockTime.min;
-        clearScreen(dc);
+        var hours = clockTime.hour;
+        
+//        clearScreen(dc);
         
         updateMinuteHand(dc, minutes);
+        updateHourHand(dc, hours);
+        setDateDisplay();
     }
     
     function updateMinuteHand(dc, minutes){
@@ -47,6 +46,14 @@ class WatchyMcWatchFaceView extends WatchUi.WatchFace {
         var angle_radians = angle_degrees * PI / 180;
         var x2 = center_x + radius * Math.cos(angle_radians); // parametric circle equation
         var y2 = center_y + radius * Math.sin(angle_radians);
+        drawGenericLine(dc, center_x, center_y, x2, y2);
+    }
+    
+    function updateHourHand(dc, hours){
+        var angle_degrees = ((hours * 30) - 90);
+        var angle_radians = angle_degrees * PI / 180;
+        var x2 = center_x + (radius / 2) * Math.cos(angle_radians);
+        var y2 = center_y + (radius / 2) * Math.sin(angle_radians);
         drawGenericLine(dc, center_x, center_y, x2, y2);
     }
     
@@ -60,19 +67,12 @@ class WatchyMcWatchFaceView extends WatchUi.WatchFace {
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
         dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
     }
-
-    // Called when this View is removed from the screen. Save the
-    // state of this View here. This includes freeing resources from
-    // memory.
-    function onHide() {
+    
+    function setDateDisplay() {
+        var now = Time.now();
+	    var date = Date.info(now, Time.FORMAT_LONG);
+	    var dateString = Lang.format("$1$ $2$, $3$", [date.month, date.day, date.year]);
+	    var dateDisplay = View.findDrawableById("DateDisplay");
+	    dateDisplay.setText(dateString);
     }
-
-    // The user has just looked at their watch. Timers and animations may be started here.
-    function onExitSleep() {
-    }
-
-    // Terminate any active timers and prepare for slow updates.
-    function onEnterSleep() {
-    }
-
 }
